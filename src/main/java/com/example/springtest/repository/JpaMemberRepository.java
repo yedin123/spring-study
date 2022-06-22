@@ -19,9 +19,16 @@ public class JpaMemberRepository implements MemberRepository {
         Member member = em.find(Member.class, id);
         return Optional.ofNullable(member);
     }
-    public List<Member> findAll() {
-        return em.createQuery("select m from Member m", Member.class)
-                .getResultList();
+    public List<Member> findAll(String name) {
+
+        if(name.isEmpty()){
+            return em.createQuery("select m from Member m", Member.class)
+                    .getResultList();
+        } else{
+            return em.createQuery("select m from Member m where m.name = :name", Member.class)
+                    .setParameter("name", name)
+                    .getResultList();
+        }
     }
     public Optional<Member> findByName(String name) {
         List<Member> result = em.createQuery("select m from Member m where m.name = :name", Member.class)
