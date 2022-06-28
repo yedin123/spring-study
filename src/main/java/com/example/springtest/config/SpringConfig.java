@@ -1,4 +1,4 @@
-package com.example.springtest;
+package com.example.springtest.config;
 
 import com.example.springtest.repository.JpaMemberRepository;
 import com.example.springtest.repository.MemberRepository;
