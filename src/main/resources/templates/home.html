@@ -1,15 +1,21 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 <div class="container">
     <div>
         <h1>Hello Spring</h1>
         <p>회원 기능</p>
         <p>
-            <a href="/members/new">회원 가입</a>
-            <a href="/members">회원 목록</a>
+            <a href="/members/new" sec:authorize="!isAuthenticated()">회원 가입</a>
+            <a href="/members" sec:authorize="isAuthenticated()">회원 목록</a>
         </p>
     </div>
+    <a class="login" type="submit" th:href="@{/account/login}" sec:authorize="!isAuthenticated()">Login</a>
+    <form class="logout" sec:authorize="isAuthenticated()" th:action="@{/logout}" method="post">
+        <span sec:authentication="name">사용자</span>
+        <span class="mx-2" sec:authentication="principal.authorities">권한</span>
+        <button type="submit">Logout</button>
+    </form>
 </div> <!-- /container -->
 </body>
 </html>

@@ -2,15 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="container">
-    <form action="/members/new" method="post">
+    <div th:if="${param.error}">
+        Invalid username and password.
+    </div>
+    <div th:if="${param.logout}">
+        You have been logged out.
+    </div>
+    <form th:action="@{/members/new}" method="post">
         <div class="form-group">
-            <label for="name">이름</label>
-            <input type="text" id="name" name="name" placeholder="이름을
-입력하세요">
+            <label for="username">username</label>
+            <input type="text" id="username" name="username" placeholder="username">
+            <label for="password">password</label>
+            <input type="password" id="password" name="password" placeholder="password">
         </div>
-        <button type="submit">등록</button>
+        <button type="submit">Sing up</button>
     </form>
 </div> <!-- /container -->
-<a href="/">홈으로</a>
+<a href="/">home</a>
 </body>
 </html>

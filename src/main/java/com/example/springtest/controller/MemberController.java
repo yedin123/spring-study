@@ -40,7 +40,8 @@ public class MemberController {
     @PostMapping(value = "/members/new")
     public String create(MemberForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Member member = new Member();
-        member.setName(form.getName());
+        member.setUsername(form.getUsername());
+        member.setPassword(form.getPassword());
 
         try { //회원 중복 확인
             memberService.join(member);

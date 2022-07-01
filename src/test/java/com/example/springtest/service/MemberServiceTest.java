@@ -35,21 +35,27 @@ class MemberServiceTest {
     public void 회원가입() throws Exception {
         //Given
         Member member = new Member();
-        member.setName("hello");
+        member.setUsername("hello");
+        member.setPassword("spring");
+        member.setEnabled(true);
         //When
         Long saveId = memberService.join(member);
         //Then
         Member findMember = memberRepository.findById(saveId).get();
-        assertEquals(member.getName(), findMember.getName());
+        assertEquals(member.getUsername(), findMember.getUsername());
     }
 
     @Test
     public void 중복_회원_예외() throws Exception {
         //Given
         Member member1 = new Member();
-        member1.setName("spring");
+        member1.setUsername("spring1");
+        member1.setPassword("spring1");
+        member1.setEnabled(true);
         Member member2 = new Member();
-        member2.setName("spring");
+        member2.setUsername("spring2");
+        member2.setPassword("spring2");
+        member2.setEnabled(true);
         //When
         memberService.join(member1);
         IllegalStateException e = assertThrows(IllegalStateException.class,

@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                    .antMatchers("/").permitAll() // home은 아무나 들어갈 수 있음
+                    .antMatchers("/", "/members/new").permitAll() // home은 아무나 들어갈 수 있음
                     .anyRequest().authenticated() // 다른 곳은 권한이 있어야 들어갈 수 있다
                     .and()
                 .formLogin()
@@ -38,20 +38,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configurationGlobal(AuthenticationManagerBuilder auth) throws Exception{
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
+                .passwordEncoder(passwordEncoder())
                 .usersByUsernameQuery("select username, password, enabled "
-                    + "from user "
+                    + "from Member "
                     + "where username = ?")
-                .authoritiesByUsernameQuery("select user_id "
-                        + "from user_role ur inner join user u on ur.user_id = u.id "
-                        + "inner join role r on ur.role_id = r.id "
-                        + "where username = ?");
+                .authoritiesByUsernameQuery("select m.username, r.name "
+                        + "from member_role mr inner join Member m on mr.member_id = m.id "
+                        + "inner join role r on mr.role_id = r.id "
+                        + "where m.username = ?");
+    }
+
+    @Bean
+    static public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     //Authentication - 로그인
     //Authorization - 권한
 
-   @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
 }

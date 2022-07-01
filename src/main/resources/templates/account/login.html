@@ -1,13 +1,13 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 <div class="container">
     <div>
         <h1>Hello Spring</h1>
         <p>회원 기능</p>
         <p>
-            <a href="/members/new">회원 가입</a>
-            <a href="/members">회원 목록</a>
+            <a href="/members/new" sec:authorize="!isAuthenticated()">회원 가입</a>
+            <a href="/members" sec:authorize="isAuthenticated()">회원 목록</a>
         </p>
     </div>
     <div th:if="${param.error}">
@@ -29,6 +29,7 @@
         </div>
         <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
     </form>
+    <a href="/">home</a>
 </div> <!-- /container -->
 </body>
 </html>
