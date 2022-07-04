@@ -39,6 +39,7 @@ public class MemberController {
 
     @PostMapping(value = "/members/new")
     public String create(MemberForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // 안드로이드 추가
         Member member = new Member();
         member.setUsername(form.getUsername());
         member.setPassword(form.getPassword());
